@@ -117,9 +117,20 @@
           });
           value = results;
         }
-        if (value) {
-          element.addClass(angular.isArray(value) ? value.join(' ') : value);
+        if (angular.isArray(value)) {
+          var out = [];
+          angular.forEach(value, function (val) {
+            if (angular.isObject(val)) {
+              angular.forEach(val, function (exp, cls) {
+                if (exp) out.push(cls);
+              });
+            } else {
+              out.push(val);
+            }
+          });
+          value = out.join(' ');
         }
+        element.addClass(value);
       }
     },
     {
